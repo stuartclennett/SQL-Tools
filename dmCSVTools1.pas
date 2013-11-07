@@ -1,0 +1,245 @@
+unit dmCSVTools1;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, uADStanIntf, uADStanOption, uADStanError, uADGUIxIntf, uADPhysIntf, uADStanDef, uADStanPool,
+  uADStanAsync, uADPhysManager, uADStanParam, uADDatSManager, uADDAptIntf, uADDAptManager, uADStanExprFuncs,
+  uADCompClient, uADPhysODBC, uADPhysIB, uADPhysMySQL, uADPhysODBCBase, uADPhysMSSQL, uADPhysSQLite, Data.DB, uADCompDataSet,
+  ClassAppSettings, ClassCSVDatasetExport, classCSVOptions;
+
+type
+  TdmCSVTools = class(TDataModule)
+    ADConnection1: TADConnection;
+    ADTransaction1: TADTransaction;
+    qryMetaInfo: TADMetaInfoQuery;
+    ADPhysSQLiteDriverLink1: TADPhysSQLiteDriverLink;
+    ADPhysMSSQLDriverLink1: TADPhysMSSQLDriverLink;
+    ADPhysMySQLDriverLink1: TADPhysMySQLDriverLink;
+    ADPhysIBDriverLink1: TADPhysIBDriverLink;
+    ADPhysIBDriverLink2: TADPhysIBDriverLink;
+    ADPhysODBCDriverLink1: TADPhysODBCDriverLink;
+    tblExport: TADQuery;
+    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleDestroy(Sender: TObject);
+  private
+    FDriverIDs: TStringList;
+    FTableNames: TStringList;
+    FLastErrorMsg: string;
+    FAfterDBConnect: TNotifyEvent;
+    fExport: TDatasetCSVExport;
+    FOnExportProgress: TExportRowEvent;
+    FActivityLog: TStringList;
+    FFileEncoding: TMyEncoding;
+    fTableName: string;
+    procedure RefreshTableNames;
+    procedure RefreshDriverIDs;
+    procedure SetDriverIDs(const Value: TStringList);
+    procedure SetTableNames(const Value: TStringList);
+    procedure SetLastErrorMsg(const Value: string);
+    procedure SetAfterDBConnect(const Value: TNotifyEvent);
+    function GetConnected: boolean;
+    procedure HandleExportProgress(sender: TObject; rowcount: integer);
+    procedure SetOnExportProgress(const Value: TExportRowEvent);
+    procedure SetActivityLog(const Value: TStringList);
+    function ValidateTableName(const aTableName : string) : boolean;
+    procedure SetFileEncoding(const Value: TMyEncoding);
+  public
+    property Connected : boolean read GetConnected;
+    function DBConnect(const aAppSettings : TAppSettings) : boolean;
+    property AfterDBConnect : TNotifyEvent read FAfterDBConnect write SetAfterDBConnect;
+    property TableNames : TStringList read FTableNames write SetTableNames;
+    property DriverIDs : TStringList read FDriverIDs write SetDriverIDs;
+    property LastErrorMsg : string read FLastErrorMsg write SetLastErrorMsg;
+    property FileEncoding : TMyEncoding read FFileEncoding write SetFileEncoding;
+    function ExportToCSV(const aTableName : string; const aExportFileName : string;
+      const aCSVOptions : TCSVOptions) : boolean;
+    property TableName : string read fTableName; //read only - pass the tablename into the export function
+    property OnExportProgress : TExportRowEvent read FOnExportProgress write SetOnExportProgress;
+    property ActivityLog : TStringList read FActivityLog write SetActivityLog;
+    procedure SaveActivityLog(const aFileName : string);
+  end;
+
+implementation
+
+{%CLASSGROUP 'System.Classes.TPersistent'}
+
+{$R *.dfm}
+
+{ TdmCSVTools }
+
+procedure TdmCSVTools.DataModuleCreate(Sender: TObject);
+begin
+  FDriverIDs := TStringList.Create;
+  fTableNames := TStringList.Create;
+  fActivityLog := TStringList.Create;
+  RefreshDriverIDs;
+end;
+
+procedure TdmCSVTools.DataModuleDestroy(Sender: TObject);
+begin
+  FTableNames.Free;
+  FActivityLog.Free;
+  FDriverIDs.Free;
+end;
+
+function TdmCSVTools.DBConnect(const aAppSettings : TAppSettings): boolean;
+begin
+(*
+  Params example:
+  Server=localhost
+  Database=imports
+  User_Name=sa
+  Password=w3stmeadstar
+  DriverID=MSSQL
+*)
+  ADConnection1.Params.Clear;
+  ADConnection1.Params.Values['DriverID'] := aAppSettings.DriverID;
+  ADConnection1.Params.Values['Server'] := aAppSettings.Server;
+  ADConnection1.Params.Values['Database'] := aAppSettings.DatabaseName;
+  ADConnection1.Params.Values['User_Name'] := aAppSettings.UserName;
+  ADConnection1.Params.Values['Password'] := aAppSettings.Password;
+  try
+    ADConnection1.Connected := TRUE;
+    result := TRUE;
+    RefreshTableNames;
+    if assigned(FAfterDBConnect) then
+      FAfterDBConnect(self);
+  except
+    on e:Exception do
+    begin
+      result := false;
+      fLastErrorMsg := e.message;
+    end;
+  end;
+end;
+
+function TdmCSVTools.ExportToCSV(const aTableName: string; const aExportFileName : string;
+  const aCSVOptions : TCSVOptions): boolean;
+begin
+  try
+    tblExport.SQL.Clear;
+    if not ValidateTableName(aTableName) then
+      raise Exception.Create(Format('Invalid table name: %S', [aTableName]));
+    // set the readonly property for others to read
+    fTableName := aTableName;
+    tblExport.SQL.Add(Format('SELECT * FROM %S', [aTableName]));
+    fExport := TDatasetCSVExport.Create;
+    try
+      fExport.Encoding := FileEncoding;
+      fExport.OutputFilename := aExportFilename;
+      fExport.Headers := aCSVOptions.Headers;
+      fExport.Seperator := aCSVOptions.Separator;
+      fExport.Delimiter := aCSVOptions.Delimiter;
+      fExport.InputDataset := tblExport;
+      fExport.OnExportRow := HandleExportProgress;
+      result := fExport.ExportDataset(tblExport);
+      fActivityLog.AddStrings(fExport.ErrorLog);
+      if result then
+        fActivityLog.Add(Format('Export of %s to %s completed at %s', [aTablename, aExportFileName, FormatDateTime('c', now)]))
+      else
+        fActivityLog.Add('Export failed. Check the log');
+    finally
+      fExport.free;
+    end;
+  except
+    on e:Exception do
+    begin
+      result := false;
+      fActivityLog.Add(e.Message);
+      FLastErrorMsg := e.Message;
+    end;
+  end;
+end;
+
+procedure TdmCSVTools.HandleExportProgress(sender: TObject; rowcount : integer);
+begin
+  if assigned(FOnExportProgress) then
+    FOnExportProgress(sender, rowcount);
+end;
+
+function TdmCSVTools.GetConnected: boolean;
+begin
+  result := ADConnection1.Connected;
+end;
+
+procedure TdmCSVTools.RefreshDriverIDs;
+var
+  C : TComponent;
+begin
+  fDriverIDs.Sorted := TRUE;
+  fDriverIDs.Duplicates := dupIgnore;
+  for C in Self do
+    if C is TADPhysDriverLink then
+      fDriverIDs.Add(TADPhysDriverLink(C).BaseDriverID);
+end;
+
+procedure TdmCSVTools.RefreshTableNames;
+begin
+  fTableNames.Clear;
+  qryMetaInfo.Open;
+  try
+    while not qryMetaInfo.Eof do
+    begin
+      fTableNames.Add(qryMetaInfo.FieldByName('TABLE_NAME').AsString);
+      qryMetaInfo.Next;
+    end;
+  finally
+    qryMetaInfo.Close;
+  end;
+end;
+
+procedure TdmCSVTools.SaveActivityLog(const aFileName: string);
+begin
+  fActivityLog.SaveToFile(aFilename);
+end;
+
+procedure TdmCSVTools.SetActivityLog(const Value: TStringList);
+begin
+  FActivityLog := Value;
+end;
+
+procedure TdmCSVTools.SetAfterDBConnect(const Value: TNotifyEvent);
+begin
+  FAfterDBConnect := Value;
+end;
+
+procedure TdmCSVTools.SetDriverIDs(const Value: TStringList);
+begin
+  FDriverIDs := Value;
+end;
+
+procedure TdmCSVTools.SetFileEncoding(const Value: TMyEncoding);
+begin
+  FFileEncoding := Value;
+end;
+
+procedure TdmCSVTools.SetLastErrorMsg(const Value: string);
+begin
+  FLastErrorMsg := Value;
+end;
+
+procedure TdmCSVTools.SetOnExportProgress(const Value: TExportRowEvent);
+begin
+  FOnExportProgress := Value;
+end;
+
+procedure TdmCSVTools.SetTableNames(const Value: TStringList);
+begin
+  FTableNames := Value;
+end;
+
+function TdmCSVTools.ValidateTableName(const aTableName: string) : boolean;
+var
+  I: Integer;
+begin
+  result := TRUE;
+  for I := 1 to Length(aTableName) do
+    if (not CharInSet(aTableName[I], ['A'..'Z'])) AND (not CharInSet(aTableName[i], ['a'..'z'])) AND (not CharInSet(aTableName[i], ['-', '_', '>','<'])) then
+    begin
+      result := false;
+      break;
+    end;
+end;
+
+end.
