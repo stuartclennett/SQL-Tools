@@ -86,6 +86,10 @@
 			<DCC_DebugInformation>false</DCC_DebugInformation>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+			<VerInfo_MinorVer>1</VerInfo_MinorVer>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.1.0.2306;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_Build>2306</VerInfo_Build>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<ItemGroup>
@@ -148,6 +152,7 @@
 						<Excluded_Packages Name="$(BDSBIN)\dclofficexp160.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
 						<Excluded_Packages Name="C:\Program Files\RemObjects Software\RemObjects SDK for Delphi\Dcu\D16\win32\RemObjects_FMX_D16.bpl">RemObjects SDK - Core Library (FMX)</Excluded_Packages>
 						<Excluded_Packages Name="C:\Program Files\RemObjects Software\Data Abstract for Delphi\Dcu\D16\win32\DataAbstract_FMX_D16.bpl">RemObjects Data Abstract - FMX Library</Excluded_Packages>
+						<Excluded_Packages Name="C:\Program Files\RemObjects Software\Data Abstract for Delphi\Dcu\D16\win32\DataAbstract_DBXDriver_Enterprise_D16.bpl">RemObjects Data Abstract - dbExpress Driver Enterprise</Excluded_Packages>
 					</Excluded_Packages>
 					<Source>
 						<Source Name="MainSource">csvtoolscmd.dpr</Source>
