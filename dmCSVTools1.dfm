@@ -49,8 +49,12 @@ object dmCSVTools: TdmCSVTools
   end
   object tblExport: TADQuery
     Connection = ADConnection1
-    FetchOptions.AssignedValues = [evUnidirectional]
+    FetchOptions.AssignedValues = [evRowsetSize, evUnidirectional, evCursorKind]
+    FetchOptions.CursorKind = ckDefault
     FetchOptions.Unidirectional = True
+    FetchOptions.RowsetSize = 1000
+    UpdateOptions.AssignedValues = [uvRefreshDelete]
+    UpdateOptions.RefreshDelete = False
     Left = 232
     Top = 40
   end

@@ -361,6 +361,7 @@ procedure TfrmMain.ExportProgressHandler(sender: Tobject;
 begin
   lblStatus.Caption := 'Exporting row ' + inttoStr(aRowCount);
   lblStatus.update;
+  application.processmessages;
 end;
 
 end.

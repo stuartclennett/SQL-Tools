@@ -105,6 +105,12 @@ begin
     RefreshTableNames;
     if assigned(FAfterDBConnect) then
       FAfterDBConnect(self);
+
+    tblExport.FetchOptions.Unidirectional := True;
+    tblExport.FetchOptions.CursorKind := ckDefault; //ckForwardOnly; <-- causes Invalid Cursor Position
+    tblExport.FetchOptions.RowsetSize := 100;
+    tblExport.FetchOptions.Mode := fmOnDemand;
+    tblExport.UpdateOptions.RequestLive := False;
   except
     on e:Exception do
     begin

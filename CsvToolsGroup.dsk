@@ -4,15 +4,23 @@ File_1=TSourceModule,'c:\program files\embarcadero\rad studio\9.0\SOURCE\RTL\SYS
 File_2=TSourceModule,'C:\Program Files\DevExpress VCL\ExpressLibrary\Sources\cxControls.pas',0,1,8201,1,8224,0,0,,
 
 [Modules]
-Module0=D:\RAD Studio\Projects\CSV Import_Export\csvtoolscmd.dproj
-Module1=D:\RAD Studio\Projects\CSV Import_Export\frmMain1.pas
-Module2=D:\RAD Studio\Projects\CSV Import_Export\dmCSVTools1.pas
-Module3=default.htm
-Module4=D:\RAD Studio\Projects\CSV Import_Export\classCSVOptions.pas
-Module5=D:\RAD Studio\Projects\CSV Import_Export\ClassAppSettings.pas
-Module6=D:\RAD Studio\Projects\SharedCode\ClassCSVDatasetExport.pas
+Module0=D:\RAD Studio\Projects\SharedCode\ClassCSVDatasetExport.pas
+Module1=default.htm
+Module2=D:\RAD Studio\Projects\CSV Import_Export\csvtoolscmd.dproj
+Module3=D:\RAD Studio\Projects\CSV Import_Export\frmMain1.pas
+Module4=D:\RAD Studio\Projects\CSV Import_Export\dmCSVTools1.pas
+Module5=D:\RAD Studio\Projects\CSV Import_Export\classCSVOptions.pas
+Module6=D:\RAD Studio\Projects\CSV Import_Export\ClassAppSettings.pas
 Count=7
 EditWindowCount=1
+
+[D:\RAD Studio\Projects\SharedCode\ClassCSVDatasetExport.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
+[default.htm]
+ModuleType=TURLModule
 
 [D:\RAD Studio\Projects\CSV Import_Export\csvtoolscmd.dproj]
 ModuleType=TBaseProject
@@ -27,9 +35,6 @@ ModuleType=TSourceModule
 FormState=1
 FormOnTop=0
 
-[default.htm]
-ModuleType=TURLModule
-
 [D:\RAD Studio\Projects\CSV Import_Export\classCSVOptions.pas]
 ModuleType=TSourceModule
 FormState=0
@@ -40,14 +45,9 @@ ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
-[D:\RAD Studio\Projects\SharedCode\ClassCSVDatasetExport.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
 [EditWindow0]
 ViewCount=7
-CurrentEditView=D:\RAD Studio\Projects\CSV Import_Export\csvtoolscmd.dpr
+CurrentEditView=D:\RAD Studio\Projects\SharedCode\ClassCSVDatasetExport.pas
 View0=0
 View1=1
 View2=2
@@ -89,9 +89,9 @@ WelcomePageURL=bds:/default.htm
 [View1]
 CustomEditViewType=TEditView
 Module=D:\RAD Studio\Projects\CSV Import_Export\frmMain1.pas
-CursorX=87
-CursorY=41
-TopLine=1
+CursorX=31
+CursorY=364
+TopLine=342
 LeftCol=1
 Elisions=
 Bookmarks={9,307,147}
@@ -111,9 +111,9 @@ EditViewName=D:\RAD Studio\Projects\CSV Import_Export\csvtoolscmd.dpr
 [View3]
 CustomEditViewType=TEditView
 Module=D:\RAD Studio\Projects\CSV Import_Export\dmCSVTools1.pas
-CursorX=54
-CursorY=122
-TopLine=1
+CursorX=1
+CursorY=164
+TopLine=129
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -144,9 +144,9 @@ EditViewName=D:\RAD Studio\Projects\CSV Import_Export\ClassAppSettings.pas
 [View6]
 CustomEditViewType=TEditView
 Module=D:\RAD Studio\Projects\SharedCode\ClassCSVDatasetExport.pas
-CursorX=134
-CursorY=323
-TopLine=336
+CursorX=66
+CursorY=617
+TopLine=597
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -179,8 +179,7 @@ Dockable=1
 StayOnTop=0
 
 [Breakpoints]
-Count=1
-Breakpoint0='D:\RAD Studio\Projects\SharedCode\ClassCSVDatasetExport.pas',147,'',0,1,'',1,0,0,'',1,'','','',0,''
+Count=0
 
 [EmbarcaderoWin64Debugger_AddressBreakpoints]
 Count=0
@@ -257,12 +256,12 @@ Docked=1
 State=0
 Left=0
 Top=0
-Width=1917
-Height=9209
+Width=2000
+Height=8921
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1917
-ClientHeight=9209
+ClientWidth=2000
+ClientHeight=8921
 TBDockHeight=7650
 LRDockWidth=2000
 Dockable=1
@@ -641,7 +640,7 @@ Visible=0
 Docked=0
 State=0
 Left=6219
-Top=1389
+Top=1453
 Width=3312
 Height=8611
 MaxLeft=-5
@@ -773,14 +772,14 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=0
-Top=0
+Left=4
+Top=24
 Width=2000
-Height=9573
+Height=8921
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1917
-ClientHeight=9209
+ClientWidth=2000
+ClientHeight=8921
 TBDockHeight=9573
 LRDockWidth=2000
 Dockable=1
