@@ -1,2 +1,2 @@
 Export completed - check the log
-Export of VIEW_BIBID_COMPAT_SAFE to D:\RAD Studio\Projects\Aquila\Data\# 130515 Test SQL Server Export to VP\VIEW_BIBID_COMPAT_SAFE_ANSI.csv completed at 16/05/2013 15:55:13
+Export of VIEW_IBID_KPI to D:\RAD Studio\testexport.csv completed at 18/11/2013 17:13:40

@@ -6,11 +6,13 @@ program csvtoolscmd;
 
 uses
   System.SysUtils,
+  System.StrUtils,
   Classes,
   dmCSVTools1 in 'dmCSVTools1.pas' {dmCSVTools: TDataModule},
   classCSVOptions in 'classCSVOptions.pas',
   ClassAppSettings in 'ClassAppSettings.pas',
-  ClassCSVDatasetExport in '..\SharedCode\ClassCSVDatasetExport.pas';
+  ClassCSVDatasetExport in '..\SharedCode\ClassCSVDatasetExport.pas',
+  FunctionsCommandLine in '..\SharedCode\FunctionsCommandLine.pas';
 
 type
   TEventHandler = class(TObject)
@@ -53,6 +55,10 @@ var
   intSetting: integer;
   aTableName: string;
   aFileName: string;
+  I: Integer;
+  aParam: string;
+  aCmdParam: string;
+  aValue: AnsiString;
 begin
   fAppSettings := nil;
   lCSVOptions := nil;
@@ -68,8 +74,6 @@ begin
 
     try
       LoadSettings;
-      if not DBConnect then
-        Raise Exception.Create('Could not connect to database - please check settings');
 
       dmCSV.OnExportProgress := Evnt.ExportProgressHandler;
 
@@ -82,10 +86,42 @@ begin
       intSetting := StrToIntDef(strSetting, Ord(enASCII));
       dmCSV.FileEncoding := TMyEncoding(intSetting);
       aTableName := fAppSettings.Setting['ExportTablename'];
+      aFileName  := fAppSettings.Setting['ExportFilename'];
+
+      // Now get command line overrides:-
+      if GetParamCount > 0 then
+      begin
+        for I := 1 to GetParamCount do
+        begin
+          aCmdParam := FunctionsCommandLine.GetParamStr(I);
+          aParam := LeftStr(aCmdParam, Pos('=', aCmdParam)-1);
+          aValue := RightStr(aCmdParam, Length(aCmdParam)-Length(aParam)-1);
+          if SameText(aParam, '-tablename') then
+            aTableName := aValue;
+          if SameText(aParam, '-filename') then
+            aFilename := aValue;
+          if SameText(aParam, '-DriverID') then
+            fAppSettings.DriverID := aValue; //mssql
+          if SameText(aParam, '-Server') then
+            fAppSettings.Server := aValue;
+          if SameText(aParam, '-Database') then
+            fAppSettings.DatabaseName := aValue;
+          if SameText(aParam, '-User_Name') then
+            fAppSettings.UserName := aValue;
+          if SameText(aParam, '-Password') then
+            fAppSettings.Password := aValue;
+        end;
+      end;
+
+      if fAppSettings.DriverID = EmptyStr then
+        fAppSettings.DriverID := 'MSSQL';
+
+      if not DBConnect then
+        Raise Exception.Create('Could not connect to database - please check settings');
+
       if aTableName = '' then
         Raise Exception.Create('No table name provided');
 
-      aFileName  := fAppSettings.Setting['ExportFilename'];
       if aFileName = EmptyStr then
         Raise Exception.Create('No export filename provided');
 

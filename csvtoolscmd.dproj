@@ -71,13 +71,14 @@
 			<DCC_RemoteDebug>true</DCC_RemoteDebug>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-			<VerInfo_Release>2</VerInfo_Release>
+			<Debugger_RunParams>-Database=aqWythen -tablename=VIEW_IBID_KPI -filename=&quot;D:\RAD Studio\testexport.csv&quot;</Debugger_RunParams>
+			<VerInfo_Release>4</VerInfo_Release>
 			<VerInfo_MinorVer>1</VerInfo_MinorVer>
 			<DCC_MapFile>3</DCC_MapFile>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-			<VerInfo_Keys>FileVersion=1.1.2.2311;InternalName=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-			<VerInfo_Build>2311</VerInfo_Build>
+			<VerInfo_Keys>FileVersion=1.1.4.2318;InternalName=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_Build>2318</VerInfo_Build>
 			<DCC_RemoteDebug>false</DCC_RemoteDebug>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -87,11 +88,12 @@
 			<DCC_DebugInformation>false</DCC_DebugInformation>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-			<VerInfo_Release>2</VerInfo_Release>
+			<Debugger_RunParams>-tablename=VIEW_IBID_FDS -filename=&quot;D:\RAD Studio\testexport.csv&quot;</Debugger_RunParams>
+			<VerInfo_Release>4</VerInfo_Release>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
 			<VerInfo_MinorVer>1</VerInfo_MinorVer>
-			<VerInfo_Keys>FileVersion=1.1.2.2311;InternalName=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-			<VerInfo_Build>2311</VerInfo_Build>
+			<VerInfo_Keys>FileVersion=1.1.4.2318;InternalName=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_Build>2318</VerInfo_Build>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<ItemGroup>
@@ -105,6 +107,7 @@
 			<DCCReference Include="classCSVOptions.pas"/>
 			<DCCReference Include="ClassAppSettings.pas"/>
 			<DCCReference Include="..\SharedCode\ClassCSVDatasetExport.pas"/>
+			<DCCReference Include="..\SharedCode\FunctionsCommandLine.pas"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
