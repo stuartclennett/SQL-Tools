@@ -7,7 +7,7 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus, cxControls, cxContainer, cxEdit, dxLayoutcxEditAdapters, dxLayoutControlAdapters,
   dxLayoutContainer, dxLayoutControl, cxLabel, cxCheckBox, cxMemo, cxMaskEdit, cxDropDownEdit, cxTextEdit, cxButtons, Vcl.ImgList,
   cxButtonEdit, dxLayoutLookAndFeels, cxOG, cxFP, dmCSVTools1, cxGraphics, uADGUIxIntf, uADGUIxFormsWait, uADStanIntf,
-  uADCompGUIx, classCSVDatasetExport, ShellAPI, dxSkinsForm;
+  uADCompGUIx, classCSVDatasetExport, ShellAPI, dxSkinsForm, dxAlertWindow, cxClasses;
 
 type
   TfrmMain = class(TForm)
@@ -71,6 +71,7 @@ type
     dxLayoutControl1Group1: TdxLayoutGroup;
     btnLocateFile: TcxButton;
     dxLayoutControl1Item10: TdxLayoutItem;
+    AlertWinMgr: TdxAlertWindowManager;
     procedure btnBrowseClick(Sender: TObject);
     procedure btnExitClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -310,6 +311,9 @@ end;
 procedure TfrmMain.DoExport;
 var
   lCSVOptions: TCSVOptions;
+  strResult: string;
+  aWin: TdxAlertWindow;
+  idxResult : integer;
 begin
   if not dmCSV.Connected then
     DBConnect;
@@ -321,10 +325,18 @@ begin
     lCSVOptions.Delimiter := edtDelimiter.Text;
     dmCSV.FileEncoding := GetFileEncoding;
     if dmCSV.ExportToCSV(cmbTableName.Text, edtExportFilename.Text, lCSVOptions) then
-      lblStatus.Caption := 'Export completed - check the log'
-    else
-      lblStatus.Caption := 'Export failed - check the log';
+    begin
+      strResult := 'succeeded';
+      idxResult := 1;
+    end else begin
+      strResult := 'failed';
+      idxResult := 7;
+    end;
     txtLog.Lines.Assign(dmCSV.ActivityLog);
+    lblStatus.Caption := Format('Export %s - check the log', [strResult]);
+    txtLog.Lines.Add(lblStatus.Caption);
+    //
+    aWin := AlertWinMgr.Show(Format('CSV export %s', [strResult]), 'Please check the log', idxResult);
   finally
     lCSVOptions.Free;
   end;
