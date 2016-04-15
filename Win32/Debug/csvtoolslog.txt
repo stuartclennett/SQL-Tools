@@ -1,2 +1,2 @@
 Export completed - check the log
-Export of VIEW_IBID_KPI to D:\RAD Studio\testexport.csv completed at 18/11/2013 17:13:40
+Export of ANALYSIS_CHECK_KD to D:\analysis_check_kd.csv completed at 15/04/2016 16:32:05

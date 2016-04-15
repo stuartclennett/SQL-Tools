@@ -59,6 +59,8 @@ var
   aParam: string;
   aCmdParam: string;
   aValue: AnsiString;
+  intSeparator: integer;
+  intDelimiter: integer;
 begin
   fAppSettings := nil;
   lCSVOptions := nil;
@@ -80,8 +82,27 @@ begin
       strSetting := fAppSettings.Setting['Headers'];
       intSetting := StrToIntDef(strSetting, 1);
       lCSVoptions.Headers := intSetting = 1;
-      lCSVOptions.Separator := fAppSettings.Setting['Separator'];
-      lCSVOptions.Delimiter := fAppSettings.Setting['Delimiter'];
+
+      if fAppSettings.Setting['SeparatorChar'] <> EmptyStr then
+      begin
+        intSeparator := StrToInt(fAppSettings.Setting['SeparatorChar']);
+        lCSVOptions.Separator := Char(intSeparator);
+      end else if fAppSettings.Setting['Separator'] <> EmptyStr then  // Legacy setting
+      begin
+        lCSVOptions.Separator := fAppSettings.Setting['Separator'];
+      end else
+        lCSVOptions.Separator := '';
+
+      if fAppSettings.Setting['DelimiterChar'] <> EmptyStr then
+      begin
+        intDelimiter := StrToInt(fAppSettings.Setting['DelimiterChar']);
+        lCSVOptions.Delimiter := Char(intDelimiter);
+      end else if fAppSettings.Setting['Delimiter'] <> EmptyStr then  // Legacy setting
+      begin
+        lCSVOptions.Delimiter := fAppSettings.Setting['Delimiter'];
+      end else
+        lCSVOptions.Delimiter := '';
+
       strSetting := fAppSettings.Setting['ExportEncoding'];
       intSetting := StrToIntDef(strSetting, Ord(enASCII));
       dmCSV.FileEncoding := TMyEncoding(intSetting);

@@ -2,60 +2,86 @@ object dmCSVTools: TdmCSVTools
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 311
-  Width = 420
-  object ADConnection1: TADConnection
-    Params.Strings = (
-      'Database=D:\Databases\SQLite\aquila\aquila_live.db'
-      'DriverID=SQLite')
-    ConnectedStoredUsage = []
-    LoginPrompt = False
-    Left = 72
-    Top = 40
+  Height = 623
+  Width = 734
+  object ADConnection1: TFDConnection
+    Transaction = ADTransaction1
+    Left = 40
+    Top = 32
   end
-  object ADTransaction1: TADTransaction
+  object ADTransaction1: TFDTransaction
     Connection = ADConnection1
-    Left = 160
-    Top = 40
+    Left = 40
+    Top = 96
   end
-  object qryMetaInfo: TADMetaInfoQuery
-    Connection = ADConnection1
-    Left = 304
-    Top = 40
+  object FDPhysOracleDriverLink1: TFDPhysOracleDriverLink
+    Left = 192
+    Top = 96
   end
-  object ADPhysSQLiteDriverLink1: TADPhysSQLiteDriverLink
-    Left = 272
-    Top = 144
+  object FDPhysDB2DriverLink1: TFDPhysDB2DriverLink
+    Left = 360
+    Top = 32
   end
-  object ADPhysMSSQLDriverLink1: TADPhysMSSQLDriverLink
-    Left = 184
+  object FDPhysInfxDriverLink1: TFDPhysInfxDriverLink
+    Left = 360
     Top = 160
   end
-  object ADPhysMySQLDriverLink1: TADPhysMySQLDriverLink
-    Left = 88
-    Top = 144
+  object FDPhysMSSQLDriverLink1: TFDPhysMSSQLDriverLink
+    Left = 192
+    Top = 304
   end
-  object ADPhysIBDriverLink1: TADPhysIBDriverLink
-    Left = 272
-    Top = 192
+  object FDPhysODBCDriverLink1: TFDPhysODBCDriverLink
+    Left = 520
+    Top = 96
   end
-  object ADPhysIBDriverLink2: TADPhysIBDriverLink
-    Left = 88
-    Top = 192
+  object FDPhysMSAccessDriverLink1: TFDPhysMSAccessDriverLink
+    Left = 360
+    Top = 232
   end
-  object ADPhysODBCDriverLink1: TADPhysODBCDriverLink
-    Left = 184
-    Top = 208
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    Left = 192
+    Top = 32
   end
-  object tblExport: TADQuery
+  object FDPhysASADriverLink1: TFDPhysASADriverLink
+    Left = 520
+    Top = 32
+  end
+  object FDPhysADSDriverLink1: TFDPhysADSDriverLink
+    Left = 192
+    Top = 160
+  end
+  object FDPhysFBDriverLink1: TFDPhysFBDriverLink
+    Left = 360
+    Top = 96
+  end
+  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
+    Left = 520
+    Top = 160
+  end
+  object FDPhysIBDriverLink1: TFDPhysIBDriverLink
+    Left = 520
+    Top = 304
+  end
+  object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
+    Left = 520
+    Top = 232
+  end
+  object FDPhysDSDriverLink1: TFDPhysDSDriverLink
+    Left = 192
+    Top = 232
+  end
+  object FDPhysTDBXDriverLink1: TFDPhysTDBXDriverLink
+    Left = 360
+    Top = 304
+  end
+  object tblExport: TFDQuery
     Connection = ADConnection1
-    FetchOptions.AssignedValues = [evRowsetSize, evUnidirectional, evCursorKind]
-    FetchOptions.CursorKind = ckDefault
-    FetchOptions.Unidirectional = True
-    FetchOptions.RowsetSize = 1000
-    UpdateOptions.AssignedValues = [uvRefreshDelete]
-    UpdateOptions.RefreshDelete = False
-    Left = 232
-    Top = 40
+    Left = 40
+    Top = 392
+  end
+  object qryMetaInfo: TFDMetaInfoQuery
+    Connection = ADConnection1
+    Left = 40
+    Top = 448
   end
 end

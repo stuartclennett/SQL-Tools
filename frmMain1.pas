@@ -6,23 +6,21 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Dialogs, StdCtrls, classappsettings, ComCtrls, ExtCtrls,
   cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus, cxControls, cxContainer, cxEdit, dxLayoutcxEditAdapters, dxLayoutControlAdapters,
   dxLayoutContainer, dxLayoutControl, cxLabel, cxCheckBox, cxMemo, cxMaskEdit, cxDropDownEdit, cxTextEdit, cxButtons, Vcl.ImgList,
-  cxButtonEdit, dxLayoutLookAndFeels, cxOG, cxFP, dmCSVTools1, cxGraphics, uADGUIxIntf, uADGUIxFormsWait, uADStanIntf,
-  uADCompGUIx, classCSVDatasetExport, ShellAPI, dxSkinsForm, dxAlertWindow, cxClasses;
+  cxButtonEdit, dxLayoutLookAndFeels, cxOG, cxFP, dmCSVTools1, cxGraphics, classCSVDatasetExport, ShellAPI, dxSkinsForm, dxAlertWindow, cxClasses,
+  FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Stan.Intf, FireDAC.Comp.UI;
 
 type
   TfrmMain = class(TForm)
     dlgOpenDB: TOpenDialog;
     dlgOpenFile: TOpenDialog;
     SaveDialog1: TSaveDialog;
-    ADGUIxWaitCursor1: TADGUIxWaitCursor;
     btnConnect: TcxButton;
     btnExport: TcxButton;
     btnExit: TcxButton;
     edtDatabase: TcxTextEdit;
     edtUserName: TcxTextEdit;
-    edtPassword: TcxTextEdit;
     edtDelimiter: TcxTextEdit;
-    edtSeperator: TcxTextEdit;
+    edtSeparator: TcxTextEdit;
     cmbConnectionTypes: TcxComboBox;
     cmbTablename: TcxComboBox;
     lblStatus: TcxLabel;
@@ -72,6 +70,17 @@ type
     btnLocateFile: TcxButton;
     dxLayoutControl1Item10: TdxLayoutItem;
     AlertWinMgr: TdxAlertWindowManager;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    edtPassword: TcxButtonEdit;
+    EchoTimer: TTimer;
+    edtSeparatorCode: TcxTextEdit;
+    dxLayoutItem1: TdxLayoutItem;
+    edtDelimiterCode: TcxTextEdit;
+    dxLayoutItem2: TdxLayoutItem;
+    cxLabel3: TcxLabel;
+    dxLayoutGroup1: TdxLayoutGroup;
+    dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup;
+    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     procedure btnBrowseClick(Sender: TObject);
     procedure btnExitClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -87,6 +96,15 @@ type
     procedure edtExportFilenamePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
     procedure cmbTablenamePropertiesInitPopup(Sender: TObject);
     procedure btnLocateFileClick(Sender: TObject);
+    procedure edtPasswordPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+    procedure EchoTimerTimer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edtDelimiterCodePropertiesEditValueChanged(Sender: TObject);
+    procedure edtSeparatorCodePropertiesEditValueChanged(Sender: TObject);
+    procedure edtSeparatorPropertiesEditValueChanged(Sender: TObject);
+    procedure edtDelimiterPropertiesEditValueChanged(Sender: TObject);
+    procedure edtDelimiterCodeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure edtSeparatorCodeKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     dmCSV: TdmCSVTools;
@@ -165,12 +183,9 @@ begin
       chkHeaders.Checked := Boolean(StrToInt(Setting['headers']))
     else
       chkHeaders.Checked := TRUE;
-    edtDelimiter.Text := Setting['delimiter'];
-    if edtDelimiter.Text = '' then
-      edtDelimiter.Text := '"';
-    edtSeperator.text := setting['seperator'];
-    if edtSeperator.Text = EmptyStr then
-      edtSeperator.Text := ',';
+
+    edtDelimiterCode.Text := Setting['DelimiterChar']; // might not be in the ini file if there's no delimiter !
+    edtSeparatorCode.text := setting['SeparatorChar'];
 
     cmbTablename.Text := Setting['ExportTableName'];
     edtExportFilename.Text := Setting['ExportFileName'];
@@ -192,8 +207,10 @@ begin
     fAppSettings.Password := '';
   fAppSettings.Setting['remember'] := IntToStr(Ord(chkRememberPassword.State));
   fAppSettings.Setting['headers'] := IntToStr(integer(chkheaders.checked));
-  fAppSettings.Setting['delimiter'] := edtDelimiter.Text;
-  fAppSettings.setting['seperator'] := edtSeperator.text;
+  fAppSettings.Setting['delimiter'] := '';  // clear the setting
+  fAppSettings.setting['seperator'] := '';  // clear the setting
+  fAppSettings.Setting['DelimiterChar'] := edtDelimiterCode.Text;
+  fAppSettings.setting['SeparatorChar'] := edtSeparatorCode.text;
   fAppSettings.Setting['ExportTableName'] := cmbTablename.Text;
   fAppSettings.Setting['ExportFileName'] := edtExportFilename.Text;
   fAppSettings.Setting['ExportEncoding'] := IntToStr(cmbEncoding.ItemIndex);
@@ -206,7 +223,7 @@ var
   strVersion: string;
   C: TComponent;
 begin
-
+  self.tag := 0;
   self.AutoSize := TRUE;
   DecodeDate(now, y,m,d);
   strVersion := GetFileVersionStr(application.ExeName);
@@ -236,6 +253,13 @@ begin
   fTableNames.Free;
 end;
 
+procedure TfrmMain.FormShow(Sender: TObject);
+begin
+  tag := tag + 1;
+  if tag = 1 then
+    grpConnection.MakeVisible;
+end;
+
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   SaveSettings;
@@ -254,6 +278,45 @@ begin
   fAppSettings.DatabaseName := edtDatabase.Text;
 end;
 
+procedure TfrmMain.edtDelimiterCodeKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  Char0, Char9 : word;
+begin
+  Char0 := Ord('0');
+  Char9 := Ord('9');
+  if (Key < Char0) or (Key > Char9) then
+    Key := 0;
+end;
+
+procedure TfrmMain.edtDelimiterCodePropertiesEditValueChanged(Sender: TObject);
+begin
+  edtDelimiter.Properties.OnEditValueChanged := nil;
+  try
+    if edtDelimiterCode.Text = EmptyStr then
+      edtDelimiter.text := EmptyStr
+    else
+      edtDelimiter.Text := Char(StrToInt(edtDelimiterCode.editingvalue));
+  finally
+    edtDelimiter.Properties.OnEditValueChanged := edtDelimiterPropertiesEditValueChanged;
+  end;
+end;
+
+procedure TfrmMain.edtDelimiterPropertiesEditValueChanged(Sender: TObject);
+begin
+  if edtDelimiter.Text = EmptyStr then
+  begin
+    edtDelimiterCode.Text := EmptyStr;
+  end else
+  begin
+    edtDelimiterCode.Properties.OnChange := nil;
+    try
+      edtDelimiterCode.Text := IntToStr(Ord(edtDelimiter.text[1]));
+    finally
+      edtDelimiterCode.Properties.OnChange := edtDelimiterPropertiesEditValueChanged;
+    end;
+  end;
+end;
+
 procedure TfrmMain.edtExportFilenamePropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
 begin
   if AButtonIndex = 0 then
@@ -268,6 +331,55 @@ end;
 procedure TfrmMain.edtPasswordChange(Sender: TObject);
 begin
   fAppSettings.Password := edtPassword.Text;
+end;
+
+procedure TfrmMain.edtPasswordPropertiesButtonClick(Sender: TObject; AButtonIndex: Integer);
+begin
+  if edtPassword.Properties.EchoMode = eemNormal then
+  begin
+    edtPassword.Properties.EchoMode := eemPassword;
+    echoTimer.Enabled := false;
+  end else
+  begin
+    edtPassword.Properties.EchoMode := eemNormal;
+    echoTimer.enabled := True;
+  end;
+end;
+
+procedure TfrmMain.edtSeparatorCodeKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Ord(Key) >= VK_SPACE then
+    if not (CharInSet(Key, ['0'..'9'])) then
+      Key := #0;
+end;
+
+procedure TfrmMain.edtSeparatorCodePropertiesEditValueChanged(Sender: TObject);
+begin
+  edtSeparator.Properties.OnEditValueChanged := nil;
+  try
+    if edtSeparatorCode.Text = EmptyStr then
+      edtSeparator.Text := EmptyStr
+    else
+      edtSeparator.Text := Char(StrToInt(edtSeparatorCode.EditValue));
+  finally
+    edtSeparator.Properties.OnEditValueChanged := edtSeparatorPropertiesEditValueChanged;
+  end;
+end;
+
+procedure TfrmMain.edtSeparatorPropertiesEditValueChanged(Sender: TObject);
+begin
+  if edtSeparator.Text = EmptyStr then
+  begin
+    edtSeparatorCode.Text := EmptyStr;
+  end else
+  begin
+    edtSeparatorCode.Properties.OnChange := nil;
+    try
+      edtSeparatorCode.Text := IntToStr(Ord(edtSeparator.text[1]));
+    finally
+      edtSeparatorCode.Properties.OnChange := edtSeparatorPropertiesEditValueChanged;
+    end;
+  end;
 end;
 
 procedure TfrmMain.btnConnectClick(Sender: TObject);
@@ -296,6 +408,7 @@ begin
     lblStatus.ShowHint := TRUE;
     cmbTableName.properties.items.Clear;
   end;
+  txtLog.Lines.Add(lblStatus.Caption);
 end;
 
 procedure TfrmMain.btnExportClick(Sender: TObject);
@@ -321,8 +434,17 @@ begin
   lCSVoptions := TCSVOptions.Create;
   try
     lCSVoptions.Headers := chkHeaders.Checked;
-    lCSVOptions.Separator := edtSeperator.Text;
-    lCSVOptions.Delimiter := edtDelimiter.Text;
+
+    if edtSeparatorCode.Text <> EmptyStr then
+      lCSVOptions.Separator := Char(StrToInt(edtSeparatorCode.Text))
+    else
+      lCSVOptions.Separator := '';
+
+    if edtDelimiterCode.Text <> EmptyStr then
+      lCSVOptions.Delimiter := Char(StrToInt(edtDelimiterCode.Text))
+    else
+      lCSVOptions.Delimiter := '';
+
     dmCSV.FileEncoding := GetFileEncoding;
     if dmCSV.ExportToCSV(cmbTableName.Text, edtExportFilename.Text, lCSVOptions) then
     begin
@@ -340,6 +462,12 @@ begin
   finally
     lCSVOptions.Free;
   end;
+end;
+
+procedure TfrmMain.EchoTimerTimer(Sender: TObject);
+begin
+  TTimer(Sender).Enabled := false;
+  edtPassword.Properties.EchoMode := eemPassword;
 end;
 
 function TfrmMain.GetFileEncoding : TMyEncoding;

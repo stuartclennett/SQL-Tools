@@ -1,6 +1,11 @@
 program csvtools;
 
 uses
+  madExcept,
+  madLinkDisAsm,
+  madListHardware,
+  madListProcesses,
+  madListModules,
   Forms,
   frmMain1 in 'frmMain1.pas' {frmMain},
   ClassAppSettings in 'ClassAppSettings.pas',

@@ -15,6 +15,7 @@ type
     FINIFile: TINIFile;
     FServer: string;
     FDriverID: string;
+    fDeletedSettings: TStringList;
     procedure SetDatabaseName(const Value: string);
     procedure SetPassword(const Value: string);
     procedure SetUserName(const Value: string);
@@ -58,11 +59,13 @@ constructor TAppSettings.Create;
 begin
   inherited Create;
   fSettings := TStringList.create;
+  fDeletedSettings := TStringList.Create;
 end;
 
 destructor TAppSettings.Destroy;
 begin
   freeandnil(fsettings);
+  fDeletedSettings.Free;
   inherited;
 end;
 
@@ -143,6 +146,8 @@ end;
 procedure TAppSettings.SetSetting(Name: string; const Value: string);
 begin
   fSettings.Values[Name] := Value;
+  if Value = EmptyStr then
+    fDeletedSettings.Add(Name);
 end;
 
 procedure TAppSettings.SetUserName(const Value: string);
@@ -165,9 +170,11 @@ begin
       // NOOOO - do not write password in plain text !! Durh !
       WriteString(_SETTINGS, _PASSWORD, Password);
 
-      For L := 0 to fSettings.Count -1 do begin
+      For L := 0 to fSettings.Count -1 do
         WriteString(_MISC, fSettings.Names[L], fSettings.Values[fSettings.Names[L]]);
-      end;
+
+      for L := 0 to fDeletedSettings.Count-1 do
+        DeleteKey(_MISC, fDeletedSettings[L]);
 
       UpdateFile;
     end;

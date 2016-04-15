@@ -3,23 +3,33 @@ unit dmCSVTools1;
 interface
 
 uses
-  System.SysUtils, System.Classes, uADStanIntf, uADStanOption, uADStanError, uADGUIxIntf, uADPhysIntf, uADStanDef, uADStanPool,
-  uADStanAsync, uADPhysManager, uADStanParam, uADDatSManager, uADDAptIntf, uADDAptManager, uADStanExprFuncs,
-  uADCompClient, uADPhysODBC, uADPhysIB, uADPhysMySQL, uADPhysODBCBase, uADPhysMSSQL, uADPhysSQLite, Data.DB, uADCompDataSet,
-  ClassAppSettings, ClassCSVDatasetExport, classCSVOptions;
+  System.SysUtils, System.Classes, ClassAppSettings, ClassCSVDatasetExport, classCSVOptions, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Stan.ExprFuncs, IPPeerClient,
+  FireDAC.Phys.TDBX, FireDAC.Phys.TDBXBase, FireDAC.Phys.DS, FireDAC.Phys.SQLite, FireDAC.Phys.IB, FireDAC.Phys.PG, FireDAC.Phys.IBBase, FireDAC.Phys.FB,
+  FireDAC.Phys.ADS, FireDAC.Phys.ASA, FireDAC.Phys.MySQL, FireDAC.Phys.MSAcc, FireDAC.Phys.ODBC, FireDAC.Phys.MSSQL, FireDAC.Phys.Infx, FireDAC.Phys.ODBCBase,
+  FireDAC.Phys.DB2, FireDAC.Phys.Oracle, FireDAC.Comp.Client, Data.DB, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet;
 
 type
   TdmCSVTools = class(TDataModule)
-    ADConnection1: TADConnection;
-    ADTransaction1: TADTransaction;
-    qryMetaInfo: TADMetaInfoQuery;
-    ADPhysSQLiteDriverLink1: TADPhysSQLiteDriverLink;
-    ADPhysMSSQLDriverLink1: TADPhysMSSQLDriverLink;
-    ADPhysMySQLDriverLink1: TADPhysMySQLDriverLink;
-    ADPhysIBDriverLink1: TADPhysIBDriverLink;
-    ADPhysIBDriverLink2: TADPhysIBDriverLink;
-    ADPhysODBCDriverLink1: TADPhysODBCDriverLink;
-    tblExport: TADQuery;
+    ADConnection1: TFDConnection;
+    ADTransaction1: TFDTransaction;
+    FDPhysOracleDriverLink1: TFDPhysOracleDriverLink;
+    FDPhysDB2DriverLink1: TFDPhysDB2DriverLink;
+    FDPhysInfxDriverLink1: TFDPhysInfxDriverLink;
+    FDPhysMSSQLDriverLink1: TFDPhysMSSQLDriverLink;
+    FDPhysODBCDriverLink1: TFDPhysODBCDriverLink;
+    FDPhysMSAccessDriverLink1: TFDPhysMSAccessDriverLink;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    FDPhysASADriverLink1: TFDPhysASADriverLink;
+    FDPhysADSDriverLink1: TFDPhysADSDriverLink;
+    FDPhysFBDriverLink1: TFDPhysFBDriverLink;
+    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
+    FDPhysIBDriverLink1: TFDPhysIBDriverLink;
+    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
+    FDPhysDSDriverLink1: TFDPhysDSDriverLink;
+    FDPhysTDBXDriverLink1: TFDPhysTDBXDriverLink;
+    tblExport: TFDQuery;
+    qryMetaInfo: TFDMetaInfoQuery;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
@@ -90,7 +100,7 @@ begin
   Server=localhost
   Database=imports
   User_Name=sa
-  Password=w3stmeadstar
+  Password=w3xxxxxxxxx
   DriverID=MSSQL
 *)
   ADConnection1.Params.Clear;
@@ -103,14 +113,13 @@ begin
     ADConnection1.Connected := TRUE;
     result := TRUE;
     RefreshTableNames;
-    if assigned(FAfterDBConnect) then
-      FAfterDBConnect(self);
 
     tblExport.FetchOptions.Unidirectional := True;
     tblExport.FetchOptions.CursorKind := ckDefault; //ckForwardOnly; <-- causes Invalid Cursor Position
     tblExport.FetchOptions.RowsetSize := 100;
     tblExport.FetchOptions.Mode := fmOnDemand;
     tblExport.UpdateOptions.RequestLive := False;
+
   except
     on e:Exception do
     begin
@@ -118,6 +127,10 @@ begin
       fLastErrorMsg := e.message;
     end;
   end;
+
+  if assigned(FAfterDBConnect) then
+    FAfterDBConnect(self);
+
 end;
 
 function TdmCSVTools.ExportToCSV(const aTableName: string; const aExportFileName : string;
@@ -176,8 +189,8 @@ begin
   fDriverIDs.Sorted := TRUE;
   fDriverIDs.Duplicates := dupIgnore;
   for C in Self do
-    if C is TADPhysDriverLink then
-      fDriverIDs.Add(TADPhysDriverLink(C).BaseDriverID);
+    if C is TFDPhysDriverLink then
+      fDriverIDs.Add(TFDPhysDriverLink(C).BaseDriverID);
 end;
 
 procedure TdmCSVTools.RefreshTableNames;
