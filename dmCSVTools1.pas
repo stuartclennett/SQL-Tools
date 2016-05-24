@@ -42,6 +42,7 @@ type
     FActivityLog: TStringList;
     FFileEncoding: TMyEncoding;
     fTableName: string;
+    fExportedRowCount: Integer;
     procedure RefreshTableNames;
     procedure RefreshDriverIDs;
     procedure SetDriverIDs(const Value: TStringList);
@@ -66,6 +67,7 @@ type
       const aCSVOptions : TCSVOptions) : boolean;
     property TableName : string read fTableName; //read only - pass the tablename into the export function
     property OnExportProgress : TExportRowEvent read FOnExportProgress write SetOnExportProgress;
+    property ExportedRowCount : integer read fExportedRowCount;
     property ActivityLog : TStringList read FActivityLog write SetActivityLog;
     procedure SaveActivityLog(const aFileName : string);
   end;
@@ -153,6 +155,7 @@ begin
       fExport.InputDataset := tblExport;
       fExport.OnExportRow := HandleExportProgress;
       result := fExport.ExportDataset(tblExport);
+      fExportedRowCount := fExport.RowCount;
       fActivityLog.AddStrings(fExport.ErrorLog);
       if result then
         fActivityLog.Add(Format('Export of %s to %s completed at %s', [aTablename, aExportFileName, FormatDateTime('c', now)]))

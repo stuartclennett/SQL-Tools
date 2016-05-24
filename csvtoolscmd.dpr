@@ -147,7 +147,10 @@ begin
         Raise Exception.Create('No export filename provided');
 
       if dmCSV.ExportToCSV(aTableName, aFilename, lCSVOptions) then
-        Display('Export completed - check the log')
+      begin
+        Display(Format('Exported row %d from %s', [dmCSV.ExportedRowCount, dmCSV.TableName]));
+        Display('Export successful, please check the log for more info.')
+      end
       else
         Display('Export failed - check the log');
     except
@@ -191,7 +194,8 @@ end;
 procedure TEventHandler.ExportProgressHandler(Sender: TObject; rowcount: integer);
 begin
   // note Sender is TCSVDatasetExport as passed in from dmCSV
-  Display(Format('Exported row %d from %s', [rowcount, dmCSV.TableName]), FALSE);
+  if rowcount mod 50 = 0 then
+    Display(Format('Exported row %d from %s', [rowcount, dmCSV.TableName]), FALSE);
 end;
 
 procedure TEventHandler.HandleAfterDBConnect(Sender: TObject);
