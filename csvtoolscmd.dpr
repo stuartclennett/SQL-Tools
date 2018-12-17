@@ -74,6 +74,11 @@ begin
     fLog := TStringList.Create;
     dmCSV := TdmCSVTools.Create(nil);
 
+     { TODO 1 -oSC -cSettings : Make this cmd line tool capable of multiple export jobs via a single INI file }
+     { TODO 1 -oSC -cSettings : Make this cmd line tool capable of multiple export jobs via a multiple INI files }
+     { TODO 1 -oSC -cExcel : Add XLSX ability with FlexCel - including adding multiple exports to the same workbook as individual worksheets }
+     { TODO 3 -oSC -cThreading : process multiple jobs in parallel - although file access would suggest this would become a problem }
+
     try
       LoadSettings;
 

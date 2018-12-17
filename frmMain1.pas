@@ -7,7 +7,7 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus, cxControls, cxContainer, cxEdit, dxLayoutcxEditAdapters, dxLayoutControlAdapters,
   dxLayoutContainer, dxLayoutControl, cxLabel, cxCheckBox, cxMemo, cxMaskEdit, cxDropDownEdit, cxTextEdit, cxButtons, Vcl.ImgList,
   cxButtonEdit, dxLayoutLookAndFeels, cxOG, cxFP, dmCSVTools1, cxGraphics, classCSVDatasetExport, ShellAPI, dxSkinsForm, dxAlertWindow, cxClasses,
-  FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Stan.Intf, FireDAC.Comp.UI;
+  FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Stan.Intf, FireDAC.Comp.UI, System.ImageList, cxImageList;
 
 type
   TfrmMain = class(TForm)
@@ -80,7 +80,13 @@ type
     cxLabel3: TcxLabel;
     dxLayoutGroup1: TdxLayoutGroup;
     dxLayoutAutoCreatedGroup2: TdxLayoutAutoCreatedGroup;
+    cxLabel1: TcxLabel;
+    dxLayoutItem3: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup3: TdxLayoutAutoCreatedGroup;
     dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
+    cxLabel2: TcxLabel;
+    dxLayoutItem4: TdxLayoutItem;
+    dxLayoutAutoCreatedGroup4: TdxLayoutAutoCreatedGroup;
     procedure btnBrowseClick(Sender: TObject);
     procedure btnExitClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
