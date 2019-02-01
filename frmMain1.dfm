@@ -30,63 +30,57 @@ object frmMain: TfrmMain
     HighlightRoot = False
     OptionsItem.FocusControlOnItemCaptionClick = True
     object cmbConnectionTypes: TcxComboBox
-      Left = 10000
-      Top = 10000
+      Left = 36
+      Top = 131
       Properties.DropDownListStyle = lsFixedList
       Style.HotTrack = False
       TabOrder = 1
-      Visible = False
       Width = 145
     end
     object edtDatabase: TcxTextEdit
-      Left = 10000
-      Top = 10000
+      Left = 36
+      Top = 221
       Style.HotTrack = False
       TabOrder = 3
-      Visible = False
       Width = 248
     end
     object edtUserName: TcxTextEdit
-      Left = 10000
-      Top = 10000
+      Left = 36
+      Top = 266
       Style.HotTrack = False
       TabOrder = 4
       Text = 'SYSDBA'
-      Visible = False
       Width = 121
     end
     object btnConnect: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 139
+      Top = 320
       Width = 145
       Height = 30
       Caption = 'Connect'
       OptionsImage.ImageIndex = 2
       OptionsImage.Images = cxImageList1
       TabOrder = 7
-      Visible = False
       OnClick = btnConnectClick
     end
     object cmbTablename: TcxComboBox
-      Left = 10000
-      Top = 10000
+      Left = 314
+      Top = 131
       Properties.DropDownRows = 16
       Properties.DropDownSizeable = True
       Properties.OnInitPopup = cmbTablenamePropertiesInitPopup
       TabOrder = 8
-      Visible = False
       Width = 249
     end
     object btnExport: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 314
+      Top = 320
       Width = 121
       Height = 30
       Caption = 'Export CSV'
       OptionsImage.ImageIndex = 1
       OptionsImage.Images = cxImageList1
       TabOrder = 11
-      Visible = False
       OnClick = btnExportClick
     end
     object txtLog: TcxMemo
@@ -96,15 +90,16 @@ object frmMain: TfrmMain
       Style.HotTrack = False
       TabOrder = 21
       Visible = False
-      Height = 157
-      Width = 497
+      Height = 267
+      Width = 735
     end
     object chkHeaders: TcxCheckBox
-      Left = 126
-      Top = 95
+      Left = 10000
+      Top = 10000
       Style.HotTrack = False
       TabOrder = 14
       Transparent = True
+      Visible = False
     end
     object btnExit: TcxButton
       Left = 600
@@ -129,25 +124,23 @@ object frmMain: TfrmMain
       Width = 584
     end
     object edtServer: TcxTextEdit
-      Left = 10000
-      Top = 10000
+      Left = 36
+      Top = 176
       Style.HotTrack = False
       TabOrder = 2
-      Visible = False
       Width = 248
     end
     object chkRememberPassword: TcxCheckBox
-      Left = 10000
-      Top = 10000
+      Left = 36
+      Top = 293
       Caption = 'Remember Password'
       Style.HotTrack = False
       TabOrder = 6
       Transparent = True
-      Visible = False
     end
     object cxButton1: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 636
+      Top = 320
       Width = 111
       Height = 30
       Caption = 'CSV Options'
@@ -155,12 +148,11 @@ object frmMain: TfrmMain
       OptionsImage.Images = cxImageList1
       OptionsImage.Spacing = 8
       TabOrder = 13
-      Visible = False
       OnClick = cxButton1Click
     end
     object edtExportFilename: TcxButtonEdit
-      Left = 10000
-      Top = 10000
+      Left = 314
+      Top = 176
       Properties.Buttons = <
         item
           Caption = 'Browse...'
@@ -170,16 +162,14 @@ object frmMain: TfrmMain
       Properties.OnButtonClick = edtExportFilenamePropertiesButtonClick
       Style.HotTrack = False
       TabOrder = 9
-      Visible = False
       Width = 433
     end
     object cmbEncoding: TcxComboBox
-      Left = 10000
-      Top = 10000
+      Left = 314
+      Top = 221
       Properties.DropDownListStyle = lsFixedList
       Style.HotTrack = False
       TabOrder = 10
-      Visible = False
       Width = 121
     end
     object cxTextFlowPanel1: TcxTextFlowPanel
@@ -197,20 +187,19 @@ object frmMain: TfrmMain
       Transparent = True
     end
     object btnLocateFile: TcxButton
-      Left = 10000
-      Top = 10000
+      Left = 519
+      Top = 320
       Width = 111
       Height = 30
       Caption = 'Open Folder'
       OptionsImage.ImageIndex = 3
       OptionsImage.Images = cxImageList1
       TabOrder = 12
-      Visible = False
       OnClick = btnLocateFileClick
     end
     object edtPassword: TcxButtonEdit
-      Left = 10000
-      Top = 10000
+      Left = 163
+      Top = 266
       Properties.Buttons = <
         item
           Default = True
@@ -221,58 +210,63 @@ object frmMain: TfrmMain
       Style.HotTrack = False
       TabOrder = 5
       Text = 'masterkey'
-      Visible = False
       Width = 121
     end
     object edtSeparatorCode: TcxTextEdit
-      Left = 81
-      Top = 145
+      Left = 10000
+      Top = 10000
       Properties.Alignment.Horz = taCenter
       Properties.OnEditValueChanged = edtSeparatorCodePropertiesEditValueChanged
       Style.HotTrack = False
       TabOrder = 17
+      Visible = False
       OnKeyPress = edtSeparatorCodeKeyPress
       Width = 65
     end
     object edtDelimiterCode: TcxTextEdit
-      Left = 81
-      Top = 172
+      Left = 10000
+      Top = 10000
       Properties.Alignment.Horz = taCenter
       Properties.OnEditValueChanged = edtDelimiterCodePropertiesEditValueChanged
       Style.HotTrack = False
       TabOrder = 19
+      Visible = False
       OnKeyDown = edtDelimiterCodeKeyDown
       Width = 65
     end
     object edtDelimiter: TcxTextEdit
-      Left = 152
-      Top = 172
+      Left = 10000
+      Top = 10000
       Properties.Alignment.Horz = taCenter
       Properties.OnEditValueChanged = edtDelimiterPropertiesEditValueChanged
       Style.HotTrack = False
       TabOrder = 20
+      Visible = False
       Width = 32
     end
     object edtSeparator: TcxTextEdit
-      Left = 152
-      Top = 145
+      Left = 10000
+      Top = 10000
       Properties.Alignment.Horz = taCenter
       Properties.OnEditValueChanged = edtSeparatorPropertiesEditValueChanged
       Style.HotTrack = False
       TabOrder = 18
+      Visible = False
       Width = 32
     end
     object cxLabel1: TcxLabel
-      Left = 81
-      Top = 122
+      Left = 10000
+      Top = 10000
       Caption = 'Char Code'
       Style.HotTrack = False
+      Visible = False
     end
     object cxLabel2: TcxLabel
-      Left = 157
-      Top = 122
+      Left = 10000
+      Top = 10000
       Caption = 'Char'
       Style.HotTrack = False
+      Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahLeft
@@ -289,7 +283,6 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Hidden Group'
       ButtonOptions.Buttons = <>
       Hidden = True
-      ItemIndex = 1
       LayoutDirection = ldTabbed
       ShowBorder = False
       TabbedOptions.Options = [pcoAlwaysShowGoDialogButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize, pcoUsePageColorForTab]
