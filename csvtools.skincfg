@@ -1,5 +1,5 @@
 [ExpressSkins]
-Default=0
+Default=1
 ShowNotifications=0
 Enabled=0
 dxSkinBlack=1
@@ -54,3 +54,4 @@ dxSkinVisualStudio2013Blue=1
 dxSkinVisualStudio2013Dark=1
 dxSkinVisualStudio2013Light=1
 dxSkinTheBezier=1
+dxSkinOffice2019Colorful=1

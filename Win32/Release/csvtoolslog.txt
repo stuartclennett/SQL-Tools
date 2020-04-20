@@ -1,0 +1,3 @@
+Exported row 445 from PATIENTS_NAME
+Export successful, please check the log for more info.
+Export of PATIENTS_NAME to C:\Users\stuart\Documents\PATIENTS_NAME.csv completed at 17/12/2018 11:54:05
