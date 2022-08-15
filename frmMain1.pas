@@ -7,7 +7,7 @@ uses
   cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus, cxControls, cxContainer, cxEdit, dxLayoutcxEditAdapters, dxLayoutControlAdapters,
   dxLayoutContainer, dxLayoutControl, cxLabel, cxCheckBox, cxMemo, cxMaskEdit, cxDropDownEdit, cxTextEdit, cxButtons, Vcl.ImgList,
   cxButtonEdit, dxLayoutLookAndFeels, cxOG, cxFP, dmCSVTools1, cxGraphics, classCSVDatasetExport, ShellAPI, dxSkinsForm, dxAlertWindow, cxClasses,
-  FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Stan.Intf, FireDAC.Comp.UI, System.ImageList, cxImageList;
+  FireDAC.UI.Intf, FireDAC.VCLUI.Wait, FireDAC.Stan.Intf, FireDAC.Comp.UI, System.ImageList, cxImageList, dxCore;
 
 type
   TfrmMain = class(TForm)
@@ -431,8 +431,8 @@ procedure TfrmMain.DoExport;
 var
   lCSVOptions: TCSVOptions;
   strResult: string;
-  aWin: TdxAlertWindow;
   idxResult : integer;
+  doExport : boolean;
 begin
   if not dmCSV.Connected then
     DBConnect;
@@ -451,20 +451,27 @@ begin
     else
       lCSVOptions.Delimiter := '';
 
-    dmCSV.FileEncoding := GetFileEncoding;
-    if dmCSV.ExportToCSV(cmbTableName.Text, edtExportFilename.Text, lCSVOptions) then
+    doExport := True;
+    if fileExists(edtExportFileName.text) then
+      doExport := IsPositiveResult(MessageDlg('File already exists.  Contrinue to export and overwrite this file? ', mtWarning, [mbYes, mbNo], 0, mbNo));
+
+    if doExport then
     begin
-      strResult := 'succeeded';
-      idxResult := 1;
-    end else begin
-      strResult := 'failed';
-      idxResult := 7;
+      dmCSV.FileEncoding := GetFileEncoding;
+      if dmCSV.ExportToCSV(cmbTableName.Text, edtExportFilename.Text, lCSVOptions) then
+      begin
+        strResult := 'succeeded';
+        idxResult := 1;
+      end else begin
+        strResult := 'failed';
+        idxResult := 7;
+      end;
+      txtLog.Lines.Assign(dmCSV.ActivityLog);
+      lblStatus.Caption := Format('Export %s - check the log', [strResult]);
+      txtLog.Lines.Add(lblStatus.Caption);
+      //
+      AlertWinMgr.Show(Format('CSV export %s', [strResult]), 'Please check the log', idxResult);
     end;
-    txtLog.Lines.Assign(dmCSV.ActivityLog);
-    lblStatus.Caption := Format('Export %s - check the log', [strResult]);
-    txtLog.Lines.Add(lblStatus.Caption);
-    //
-    aWin := AlertWinMgr.Show(Format('CSV export %s', [strResult]), 'Please check the log', idxResult);
   finally
     lCSVOptions.Free;
   end;

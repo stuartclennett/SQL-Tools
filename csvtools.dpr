@@ -16,7 +16,8 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   dmCSVTools1 in 'dmCSVTools1.pas' {dmCSVTools: TDataModule},
-  classCSVOptions in 'classCSVOptions.pas';
+  classCSVOptions in 'classCSVOptions.pas',
+  classWpsCsvParser in '..\SharedCode\classWpsCsvParser.pas';
 
 {$R *.res}
 

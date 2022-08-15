@@ -7,7 +7,9 @@ uses
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Stan.ExprFuncs, IPPeerClient,
   FireDAC.Phys.TDBX, FireDAC.Phys.TDBXBase, FireDAC.Phys.DS, FireDAC.Phys.SQLite, FireDAC.Phys.IB, FireDAC.Phys.PG, FireDAC.Phys.IBBase, FireDAC.Phys.FB,
   FireDAC.Phys.ADS, FireDAC.Phys.ASA, FireDAC.Phys.MySQL, FireDAC.Phys.MSAcc, FireDAC.Phys.ODBC, FireDAC.Phys.MSSQL, FireDAC.Phys.Infx, FireDAC.Phys.ODBCBase,
-  FireDAC.Phys.DB2, FireDAC.Phys.Oracle, FireDAC.Comp.Client, Data.DB, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet;
+  FireDAC.Phys.DB2, FireDAC.Phys.Oracle, FireDAC.Comp.Client, Data.DB, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.ConsoleUI.Wait,
+  FireDAC.Phys.OracleDef, FireDAC.Phys.DB2Def, FireDAC.Phys.InfxDef, FireDAC.Phys.MSSQLDef, FireDAC.Phys.ODBCDef, FireDAC.Phys.MSAccDef, FireDAC.Phys.MySQLDef, FireDAC.Phys.ASADef,
+  FireDAC.Phys.ADSDef, FireDAC.Phys.FBDef, FireDAC.Phys.PGDef, FireDAC.Phys.IBDef, FireDAC.Phys.SQLiteDef, FireDAC.Phys.DSDef, FireDAC.Phys.TDBXDef;
 
 type
   TdmCSVTools = class(TDataModule)
@@ -257,7 +259,7 @@ var
 begin
   result := TRUE;
   for I := 1 to Length(aTableName) do
-    if (not CharInSet(aTableName[I], ['A'..'Z'])) AND (not CharInSet(aTableName[i], ['a'..'z'])) AND (not CharInSet(aTableName[i], ['-', '_', '>','<'])) then
+    if (not CharInSet(aTableName[I], ['A'..'Z'])) AND (not CharInSet(aTableName[i], ['a'..'z'])) and (not CharInSet(aTableName[i], ['0'..'9'])) AND (not CharInSet(aTableName[i], ['-', '_', '>','<'])) then
     begin
       result := false;
       break;

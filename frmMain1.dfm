@@ -2,13 +2,13 @@ object frmMain: TfrmMain
   Left = 321
   Top = 273
   Caption = 'CSV Tools '#169' 2013 Evolution Healthcare Systems Ltd'
-  ClientHeight = 498
-  ClientWidth = 878
+  ClientHeight = 470
+  ClientWidth = 779
   Color = clWhite
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Shell Dlg 2'
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
@@ -18,43 +18,45 @@ object frmMain: TfrmMain
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 849
-    Height = 433
+    Width = 779
+    Height = 470
+    Align = alClient
     TabOrder = 0
-    AutoSize = True
     LayoutLookAndFeel = dxLayoutSkinLookAndFeel1
     HighlightRoot = False
     OptionsItem.FocusControlOnItemCaptionClick = True
+    ExplicitWidth = 849
+    ExplicitHeight = 477
     object cmbConnectionTypes: TcxComboBox
-      Left = 36
-      Top = 131
+      Left = 42
+      Top = 146
       Properties.DropDownListStyle = lsFixedList
       Style.HotTrack = False
       TabOrder = 1
       Width = 145
     end
     object edtDatabase: TcxTextEdit
-      Left = 36
-      Top = 221
+      Left = 42
+      Top = 248
       Style.HotTrack = False
       TabOrder = 3
       Width = 248
     end
     object edtUserName: TcxTextEdit
-      Left = 36
-      Top = 266
+      Left = 42
+      Top = 299
       Style.HotTrack = False
       TabOrder = 4
       Text = 'SYSDBA'
       Width = 121
     end
     object btnConnect: TcxButton
-      Left = 139
-      Top = 320
+      Left = 146
+      Top = 359
       Width = 145
       Height = 30
       Caption = 'Connect'
@@ -64,8 +66,8 @@ object frmMain: TfrmMain
       OnClick = btnConnectClick
     end
     object cmbTablename: TcxComboBox
-      Left = 314
-      Top = 131
+      Left = 326
+      Top = 146
       Properties.DropDownRows = 16
       Properties.DropDownSizeable = True
       Properties.OnInitPopup = cmbTablenamePropertiesInitPopup
@@ -73,8 +75,8 @@ object frmMain: TfrmMain
       Width = 249
     end
     object btnExport: TcxButton
-      Left = 314
-      Top = 320
+      Left = 616
+      Top = 361
       Width = 121
       Height = 30
       Caption = 'Export CSV'
@@ -102,8 +104,8 @@ object frmMain: TfrmMain
       Visible = False
     end
     object btnExit: TcxButton
-      Left = 600
-      Top = 382
+      Left = 594
+      Top = 428
       Width = 173
       Height = 30
       Caption = 'Save Settings && Exit'
@@ -113,34 +115,34 @@ object frmMain: TfrmMain
       OnClick = btnExitClick
     end
     object lblStatus: TcxLabel
-      Left = 10
-      Top = 388
+      Left = 12
+      Top = 434
       Margins.Bottom = 0
       AutoSize = False
       Caption = #169' Copyright Info'
       Style.HotTrack = False
       Transparent = True
       Height = 17
-      Width = 584
+      Width = 575
     end
     object edtServer: TcxTextEdit
-      Left = 36
-      Top = 176
+      Left = 42
+      Top = 197
       Style.HotTrack = False
       TabOrder = 2
-      Width = 248
+      Width = 249
     end
     object chkRememberPassword: TcxCheckBox
-      Left = 36
-      Top = 293
+      Left = 42
+      Top = 329
       Caption = 'Remember Password'
       Style.HotTrack = False
       TabOrder = 6
       Transparent = True
     end
     object cxButton1: TcxButton
-      Left = 636
-      Top = 320
+      Left = 444
+      Top = 361
       Width = 111
       Height = 30
       Caption = 'CSV Options'
@@ -151,8 +153,8 @@ object frmMain: TfrmMain
       OnClick = cxButton1Click
     end
     object edtExportFilename: TcxButtonEdit
-      Left = 314
-      Top = 176
+      Left = 326
+      Top = 197
       Properties.Buttons = <
         item
           Caption = 'Browse...'
@@ -162,21 +164,21 @@ object frmMain: TfrmMain
       Properties.OnButtonClick = edtExportFilenamePropertiesButtonClick
       Style.HotTrack = False
       TabOrder = 9
-      Width = 433
+      Width = 411
     end
     object cmbEncoding: TcxComboBox
-      Left = 314
-      Top = 221
+      Left = 326
+      Top = 248
       Properties.DropDownListStyle = lsFixedList
       Style.HotTrack = False
       TabOrder = 10
       Width = 121
     end
     object cxTextFlowPanel1: TcxTextFlowPanel
-      Left = 10
-      Top = 10
-      Width = 763
-      Height = 45
+      Left = 12
+      Top = 12
+      Width = 755
+      Height = 47
       Borders = [bTop]
       BorderWidth = 1
       Caption = 'Exports tables & views to a CSV file with a choice of encoding. '
@@ -187,8 +189,8 @@ object frmMain: TfrmMain
       Transparent = True
     end
     object btnLocateFile: TcxButton
-      Left = 519
-      Top = 320
+      Left = 326
+      Top = 361
       Width = 111
       Height = 30
       Caption = 'Open Folder'
@@ -198,8 +200,8 @@ object frmMain: TfrmMain
       OnClick = btnLocateFileClick
     end
     object edtPassword: TcxButtonEdit
-      Left = 163
-      Top = 266
+      Left = 170
+      Top = 299
       Properties.Buttons = <
         item
           Default = True
@@ -237,21 +239,25 @@ object frmMain: TfrmMain
     object edtDelimiter: TcxTextEdit
       Left = 10000
       Top = 10000
+      AutoSize = False
       Properties.Alignment.Horz = taCenter
       Properties.OnEditValueChanged = edtDelimiterPropertiesEditValueChanged
       Style.HotTrack = False
       TabOrder = 20
       Visible = False
+      Height = 21
       Width = 32
     end
     object edtSeparator: TcxTextEdit
       Left = 10000
       Top = 10000
+      AutoSize = False
       Properties.Alignment.Horz = taCenter
       Properties.OnEditValueChanged = edtSeparatorPropertiesEditValueChanged
       Style.HotTrack = False
       TabOrder = 18
       Visible = False
+      Height = 21
       Width = 32
     end
     object cxLabel1: TcxLabel
@@ -269,9 +275,8 @@ object frmMain: TfrmMain
       Visible = False
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
-      AlignHorz = ahLeft
-      AlignVert = avTop
-      ButtonOptions.Buttons = <>
+      AlignHorz = ahClient
+      AlignVert = avClient
       Hidden = True
       ItemIndex = 1
       ShowBorder = False
@@ -279,9 +284,9 @@ object frmMain: TfrmMain
     end
     object dxLayoutControl1Group2: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
-      AlignHorz = ahLeft
+      AlignHorz = ahClient
+      AlignVert = avClient
       CaptionOptions.Text = 'Hidden Group'
-      ButtonOptions.Buttons = <>
       Hidden = True
       LayoutDirection = ldTabbed
       ShowBorder = False
@@ -291,16 +296,14 @@ object frmMain: TfrmMain
     object grpConnection: TdxLayoutGroup
       Parent = dxLayoutControl1Group2
       CaptionOptions.Text = 'Connection'
-      ButtonOptions.Buttons = <>
       ItemIndex = 1
       LayoutDirection = ldHorizontal
       Index = 0
     end
     object dxLayoutControl1Group4: TdxLayoutGroup
       Parent = grpConnection
-      AlignVert = avTop
+      AlignVert = avClient
       CaptionOptions.Text = 'Database Connection'
-      ButtonOptions.Buttons = <>
       ItemIndex = 2
       Index = 0
     end
@@ -308,7 +311,6 @@ object frmMain: TfrmMain
       Parent = dxLayoutControl1Group4
       AlignVert = avTop
       CaptionOptions.Text = 'Hidden Group'
-      ButtonOptions.Buttons = <>
       Hidden = True
       ShowBorder = False
       Index = 0
@@ -319,7 +321,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Connection Type:'
       CaptionOptions.Layout = clTop
       Control = cmbConnectionTypes
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 145
       ControlOptions.ShowBorder = False
       Index = 0
@@ -330,7 +332,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Database'
       CaptionOptions.Layout = clTop
       Control = edtDatabase
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 248
       ControlOptions.ShowBorder = False
       Index = 2
@@ -339,7 +341,6 @@ object frmMain: TfrmMain
       Parent = dxLayoutControl1Group4
       AlignHorz = ahLeft
       CaptionOptions.Text = 'Hidden Group'
-      ButtonOptions.Buttons = <>
       Hidden = True
       LayoutDirection = ldHorizontal
       ShowBorder = False
@@ -350,7 +351,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'User Name:'
       CaptionOptions.Layout = clTop
       Control = edtUserName
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 0
@@ -360,7 +361,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Password:'
       CaptionOptions.Layout = clTop
       Control = edtPassword
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 1
@@ -381,7 +382,6 @@ object frmMain: TfrmMain
       AlignHorz = ahClient
       AlignVert = avClient
       CaptionOptions.Text = 'Export'
-      ButtonOptions.Buttons = <>
       Index = 1
     end
     object dxLayoutControl1Item6: TdxLayoutItem
@@ -390,14 +390,14 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Tablename'
       CaptionOptions.Layout = clTop
       Control = cmbTablename
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 249
       ControlOptions.ShowBorder = False
       Index = 0
     end
     object dxLayoutControl1Item9: TdxLayoutItem
       Parent = dxLayoutControl1Group1
-      AlignHorz = ahLeft
+      AlignHorz = ahRight
       AlignVert = avBottom
       CaptionOptions.Text = 'btnExport'
       CaptionOptions.Visible = False
@@ -411,7 +411,6 @@ object frmMain: TfrmMain
     object dxLayoutControl1Group16: TdxLayoutGroup
       Parent = dxLayoutControl1Group2
       CaptionOptions.Text = 'Activity Log'
-      ButtonOptions.Buttons = <>
       LayoutDirection = ldHorizontal
       Index = 2
     end
@@ -431,7 +430,6 @@ object frmMain: TfrmMain
     object grpOptions: TdxLayoutGroup
       Parent = dxLayoutControl1Group2
       CaptionOptions.Text = 'CSV Options'
-      ButtonOptions.Buttons = <>
       ItemIndex = 1
       Index = 1
     end
@@ -441,7 +439,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Headers on 1st Row'
       Control = chkHeaders
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 21
+      ControlOptions.OriginalWidth = 17
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -471,8 +469,8 @@ object frmMain: TfrmMain
     object dxLayoutControl1Group5: TdxLayoutGroup
       Parent = dxLayoutControl1Group_Root
       AlignHorz = ahClient
+      AlignVert = avBottom
       CaptionOptions.Text = 'Hidden Group'
-      ButtonOptions.Buttons = <>
       Hidden = True
       LayoutDirection = ldHorizontal
       ShowBorder = False
@@ -483,7 +481,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Server'
       CaptionOptions.Layout = clTop
       Control = edtServer
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 248
       ControlOptions.ShowBorder = False
       Index = 1
@@ -493,14 +491,14 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'cxCheckBox1'
       CaptionOptions.Visible = False
       Control = chkRememberPassword
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
     end
     object dxLayoutControl1Item22: TdxLayoutItem
       Parent = dxLayoutControl1Group1
-      AlignHorz = ahRight
+      AlignHorz = ahLeft
       CaptionOptions.Text = 'cxButton1'
       CaptionOptions.Visible = False
       Control = cxButton1
@@ -515,7 +513,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Export Filename'
       CaptionOptions.Layout = clTop
       Control = edtExportFilename
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 433
       ControlOptions.ShowBorder = False
       Index = 1
@@ -526,7 +524,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'File Encoding'
       CaptionOptions.Layout = clTop
       Control = cmbEncoding
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 121
       ControlOptions.ShowBorder = False
       Index = 2
@@ -537,7 +535,7 @@ object frmMain: TfrmMain
       CaptionOptions.Visible = False
       Control = cxTextFlowPanel1
       ControlOptions.AutoColor = True
-      ControlOptions.OriginalHeight = 45
+      ControlOptions.OriginalHeight = 47
       ControlOptions.OriginalWidth = 755
       ControlOptions.ShowBorder = False
       Index = 0
@@ -546,7 +544,6 @@ object frmMain: TfrmMain
       Parent = grpExport
       AlignVert = avBottom
       CaptionOptions.Text = 'Hidden Group'
-      ButtonOptions.Buttons = <>
       Hidden = True
       LayoutDirection = ldHorizontal
       ShowBorder = False
@@ -554,7 +551,7 @@ object frmMain: TfrmMain
     end
     object dxLayoutControl1Item10: TdxLayoutItem
       Parent = dxLayoutControl1Group1
-      AlignHorz = ahRight
+      AlignHorz = ahLeft
       CaptionOptions.Text = 'cxButton2'
       CaptionOptions.Visible = False
       Control = btnLocateFile
@@ -567,7 +564,6 @@ object frmMain: TfrmMain
       Parent = grpOptions
       AlignHorz = ahLeft
       CaptionOptions.Text = 'grpOptionsSub'
-      ButtonOptions.Buttons = <>
       ItemControlAreaAlignment = catOwn
       ShowBorder = False
       Index = 1
@@ -578,7 +574,7 @@ object frmMain: TfrmMain
       AlignVert = avTop
       CaptionOptions.Text = 'Seperator:'
       Control = edtSeparatorCode
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 65
       ControlOptions.ShowBorder = False
       Index = 0
@@ -590,7 +586,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'Delimiter:'
       Control = edtDelimiterCode
       ControlOptions.AlignVert = avCenter
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 23
       ControlOptions.OriginalWidth = 65
       ControlOptions.ShowBorder = False
       Index = 0
@@ -613,7 +609,6 @@ object frmMain: TfrmMain
       AlignVert = avTop
       LayoutDirection = ldHorizontal
       Index = 1
-      AutoCreated = True
     end
     object dxLayoutControl1Item17: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
@@ -631,7 +626,7 @@ object frmMain: TfrmMain
       AlignHorz = ahClient
       CaptionOptions.Text = '   '
       Control = cxLabel1
-      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalHeight = 19
       ControlOptions.OriginalWidth = 46
       ControlOptions.ShowBorder = False
       Index = 0
@@ -641,22 +636,20 @@ object frmMain: TfrmMain
       AlignHorz = ahLeft
       AlignVert = avTop
       Index = 0
-      AutoCreated = True
     end
     object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
       Parent = dxLayoutAutoCreatedGroup3
       AlignVert = avTop
       LayoutDirection = ldHorizontal
       Index = 1
-      AutoCreated = True
     end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup4
       CaptionOptions.Text = 'Char'
       CaptionOptions.Visible = False
       Control = cxLabel2
-      ControlOptions.OriginalHeight = 17
-      ControlOptions.OriginalWidth = 27
+      ControlOptions.OriginalHeight = 19
+      ControlOptions.OriginalWidth = 29
       ControlOptions.ShowBorder = False
       Index = 1
     end
@@ -664,7 +657,6 @@ object frmMain: TfrmMain
       Parent = dxLayoutAutoCreatedGroup3
       LayoutDirection = ldHorizontal
       Index = 0
-      AutoCreated = True
     end
   end
   object cxLabel3: TcxLabel
@@ -675,26 +667,26 @@ object frmMain: TfrmMain
   end
   object dlgOpenDB: TOpenDialog
     Filter = 'Database Files|*.db;*.fdb;*.tdb;*.gdb;*.ib'
-    Left = 80
-    Top = 440
+    Left = 104
+    Top = 492
   end
   object dlgOpenFile: TOpenDialog
     Filter = 'Text Files|*.csv;*.txt'
-    Left = 32
-    Top = 440
+    Left = 56
+    Top = 492
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'csv'
     Filter = 'Text Files|*.csv;*.txt'
-    Left = 136
-    Top = 440
+    Left = 160
+    Top = 492
   end
   object cxImageList1: TcxImageList
     SourceDPI = 96
     Height = 24
     Width = 24
     FormatVersion = 1
-    DesignInfo = 28836040
+    DesignInfo = 32243936
     ImageInfo = <
       item
         Image.Data = {
@@ -1314,12 +1306,12 @@ object frmMain: TfrmMain
       end>
   end
   object dxSkinController1: TdxSkinController
-    Left = 280
-    Top = 440
+    Left = 304
+    Top = 492
   end
   object dxLayoutLookAndFeelList1: TdxLayoutLookAndFeelList
-    Left = 400
-    Top = 440
+    Left = 424
+    Top = 492
     object dxLayoutSkinLookAndFeel1: TdxLayoutSkinLookAndFeel
       PixelsPerInch = 96
     end
@@ -1347,14 +1339,14 @@ object frmMain: TfrmMain
     OptionsNavigationPanel.Font.Style = []
     OptionsSize.AutoHeight = True
     OptionsSize.AutoWidth = True
-    Left = 576
-    Top = 440
+    Left = 600
+    Top = 492
     PixelsPerInch = 96
   end
   object FDGUIxWaitCursor1: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 504
-    Top = 440
+    Left = 528
+    Top = 492
   end
   object EchoTimer: TTimer
     Interval = 20000
