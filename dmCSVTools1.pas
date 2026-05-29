@@ -116,6 +116,7 @@ begin
   try
     ADConnection1.Connected := TRUE;
     result := TRUE;
+
     RefreshTableNames;
 
     tblExport.FetchOptions.Unidirectional := True;

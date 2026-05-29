@@ -29,8 +29,6 @@ object frmMain: TfrmMain
     LayoutLookAndFeel = dxLayoutSkinLookAndFeel1
     HighlightRoot = False
     OptionsItem.FocusControlOnItemCaptionClick = True
-    ExplicitWidth = 849
-    ExplicitHeight = 477
     object cmbConnectionTypes: TcxComboBox
       Left = 42
       Top = 146
@@ -92,8 +90,8 @@ object frmMain: TfrmMain
       Style.HotTrack = False
       TabOrder = 21
       Visible = False
-      Height = 267
-      Width = 735
+      Height = 301
+      Width = 723
     end
     object chkHeaders: TcxCheckBox
       Left = 10000
@@ -116,13 +114,13 @@ object frmMain: TfrmMain
     end
     object lblStatus: TcxLabel
       Left = 12
-      Top = 434
+      Top = 429
       Margins.Bottom = 0
       AutoSize = False
       Caption = #169' Copyright Info'
       Style.HotTrack = False
       Transparent = True
-      Height = 17
+      Height = 27
       Width = 575
     end
     object edtServer: TcxTextEdit
@@ -245,7 +243,7 @@ object frmMain: TfrmMain
       Style.HotTrack = False
       TabOrder = 20
       Visible = False
-      Height = 21
+      Height = 23
       Width = 32
     end
     object edtSeparator: TcxTextEdit
@@ -257,7 +255,7 @@ object frmMain: TfrmMain
       Style.HotTrack = False
       TabOrder = 18
       Visible = False
-      Height = 21
+      Height = 23
       Width = 32
     end
     object cxLabel1: TcxLabel
@@ -461,7 +459,7 @@ object frmMain: TfrmMain
       CaptionOptions.Text = 'New Item'
       CaptionOptions.Visible = False
       Control = lblStatus
-      ControlOptions.OriginalHeight = 17
+      ControlOptions.OriginalHeight = 27
       ControlOptions.OriginalWidth = 576
       ControlOptions.ShowBorder = False
       Index = 0
